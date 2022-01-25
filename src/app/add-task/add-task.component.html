@@ -1,0 +1,61 @@
+
+
+
+<form class="form" [formGroup]="taskForm">
+
+    
+<mat-form-field appearance="fill">
+    
+    <mat-label>Choose a date</mat-label>
+    <input matInput [formControl]="dateFormControl" [matDatepickerFilter]="daysFilter" 
+    [matDatepicker]="picker"  [(ngModel)]="begin">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<mat-form-field appearance="fill">
+    <mat-label>time of start</mat-label>
+    <mat-select [(value)] = "selectedTime">
+      <mat-option *ngFor="let time of times" [value]="time">
+        {{time.hours}}:{{time.minutes| number: '2.0-0'}}
+      </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>Choose task duration</mat-label>
+    <mat-select [(ngModel)]= "duration" formControlName="duration">
+      <mat-option *ngFor="let duration of durations" [value]="duration">
+        {{duration.hours}}:{{duration.minutes| number: '2.0-0'}}
+      </mat-option>
+    </mat-select>
+            <mat-error *ngIf="f.duration.invalid">
+                required
+              </mat-error>
+</mat-form-field>
+
+
+<mat-form-field appearance="fill">
+    <mat-label>Choose technician</mat-label>
+    <mat-select [(ngModel)] = "selectedTechnician" formControlName="tech">
+      <mat-option *ngFor="let technician of technicians" [value]="technician">
+        {{technician.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="f.tech.invalid">
+        required
+      </mat-error>
+</mat-form-field>
+<mat-divider></mat-divider>
+<mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Task description</mat-label>
+    <textarea matInput [(ngModel)]="description" formControlName="description"></textarea>
+    <mat-error *ngIf="f.description.invalid">
+        required
+      </mat-error>
+  </mat-form-field>
+<mat-divider></mat-divider>
+<button mat-raised-button color="primary" (click) = addTask() 
+[disabled]="!taskForm.valid">Add task</button>
+</form>
+
+<app-technician [tech]="selectedTechnician"></app-technician>

@@ -1,0 +1,17 @@
+<mat-card *ngIf="tech">
+    <mat-card-title>{{tech.name}}</mat-card-title>
+
+<mat-card-subtitle>tasks</mat-card-subtitle>
+
+<section *ngFor="let task of tech.tasks">
+    "{{task.description}}"
+    <div *ngIf="checkSameDay(task); else elseBlock">
+        {{task.begin | date: 'dd-MM-yy'}} from {{task.begin | date: 'HH:mm'}} to {{task.end | date: 'HH:mm'}} 
+    </div>
+    <ng-template #elseBlock>
+        <div>from {{task.begin | date: 'dd-MM-yy HH:mm'}} to {{task.end | date: 'dd-MM-yy HH:mm'}}</div> 
+    </ng-template>
+    
+</section>
+</mat-card>
+
