@@ -68,10 +68,7 @@ export class AddTaskComponent implements OnInit {
   constructor(private fb: FormBuilder, private taskService:TaskService) { }
 
   ngOnInit(): void {
-    // this.technicians.push(new Technician());
-    // this.technicians.push(new Technician("Maxim Ivanov"));
-    // this.technicians.push(new Technician());
-   
+
     this.renewTechnicians();
   
   }
@@ -86,7 +83,6 @@ export class AddTaskComponent implements OnInit {
 
     this.setDates();
 
-      // this.selectedTechnician.tasks.push(new Task (new Date (this.begin),new Date (this.end),this.description));
      let newTask = new Task (new Date (this.begin),new Date (this.end),this.description)
       this.taskService.add(newTask,this.selectedTechnician.id).subscribe(data=> {
         this.renewTechnicians();
@@ -95,12 +91,7 @@ export class AddTaskComponent implements OnInit {
         alert ("Selected Technician is busy")
       }
       )
-     
-      
-      console.log (this.technicians);
-
     
-
     
   }
   get f() { return this.taskForm.controls; }
@@ -125,37 +116,7 @@ export class AddTaskComponent implements OnInit {
   renewTechnicians (){
     this.taskService.findAll().subscribe(data => {
       this.technicians = data;
-      console.log (this.technicians);
     });
-  }
-
-
-  isTechnicianFree (begin:Date,end:Date,technician:Technician){
-
-    if (!technician.tasks){
-      technician.tasks=[];
-      return true;
-    }
-
-   for (let index = 0; index < technician.tasks.length; index++) {
-     const task = technician.tasks[index];
-
-      if ((begin>=task.begin)&&(begin<task.end)){
-        return false;// task begin inside another task
-      }
-      if ((end>task.begin)&&(end<=task.end)){
-        return false;// task end inside another task
-      }
-      if ((task.begin>=begin)&&(task.begin<end)){
-        return false;// another task begin inside new task
-      }
-      if ((task.end>begin)&&(task.end<=end)){
-        return false;// another task end inside new task
-      }
-
-    }
-    
-    return true;
   }
 
 }
